@@ -10,11 +10,11 @@ class Minimal
     const LOG_LEVEL   = 'INFO';
     const TRACE_LEVEL = 1;
 
-    static public $autodump    = self::AUTODUMP;
-    static public $color       = self::COLOR;
-    static public $debug       = self::DEBUG;
-    static public $log_level   = self::LOG_LEVEL;
-    static public $trace_level = self::TRACE_LEVEL;
+    static public $autodump    = null;
+    static public $color       = null;
+    static public $debug       = null;
+    static public $log_level   = null;
+    static public $trace_level = null;
     static public $print       = null;
 
     static protected $color_map = array(
@@ -55,14 +55,18 @@ class Minimal
     static private function log()
     {
         $args = func_get_args();
-        $tag  = $args[0];
-        $full = $args[1];
-        $msgs = $args[2];
+        $tag  = array_shift($args);
+        $full = array_shift($args);
+        $msgs = array_shift($args);
 
-        if (isset($_SERVER['LM_COLOR'])) self::$color = $_SERVER['LM_COLOR'];
-        if (isset($_SERVER['LM_DEBUG'])) self::$debug = $_SERVER['LM_DEBUG'];
-        if (isset($_SERVER['LM_LOG_LEVEL']))
-            self::$log_level = $_SERVER['LM_LOG_LEVEL'];
+        if (is_null(self::$color))
+            self::$color = isset($_SERVER['LM_COLOR']) ? $_SERVER['LM_COLOR'] : self::COLOR;
+        if (is_null(self::$debug))
+            self::$debug = isset($_SERVER['LM_DEBUG']) ? $_SERVER['LM_DEBUG'] : self::DEBUG;
+        if (is_null(self::$log_level))
+            self::$log_level = isset($_SERVER['LM_LOG_LEVEL']) ? $_SERVER['LM_LOG_LEVEL'] : self::LOG_LEVEL;
+        if (is_null(self::$trace_level))
+            self::$trace_level = isset($_SERVER['LM_TRACE_LEVEL']) ? $_SERVER['LM_TRACE_LEVEL'] : self::TRACE_LEVEL;
 
         if (!array_key_exists(strtoupper(self::$log_level), self::$log_level_map))
             return;
@@ -85,7 +89,7 @@ class Minimal
         $message     = array_shift($msgs);
         $raw_message = $message;
         foreach ($msgs as $key => $val) {
-            if (is_object($val) || is_array($val) || is_resource($val)) {
+            if (is_object($val) || is_array($val) || is_resource($val) || is_callable($val)) {
                 ob_start();
                 var_dump($msgs[$key]);
                 $msgs[$key] = ob_get_contents();
@@ -105,7 +109,7 @@ class Minimal
             $message = \Term\ANSIColor::colored($message, $f, $b, $a);
         }
 
-        if (self::$print) {
+        if (is_callable(self::$print)) {
             $func = self::$print;
             $func($time, $tag, $message, $trace, $raw_message);
         }
@@ -116,7 +120,7 @@ class Minimal
 
     static private function _print($time, $type, $message, $trace, $raw_message)
     {
-        fputs(STDERR, sprintf("%s [%s] %s at %s line %d \n",
+        fputs(STDERR, sprintf("%s [%s] %s at %s line %d\n",
                 $time, $type, $message, $trace['file'], $trace['line']));
     }
 }
