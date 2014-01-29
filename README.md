@@ -2,7 +2,7 @@
 
 ## NAME
 
-\Log\Minimal - Minimal but customizable logger.
+\Log\Minimal - Minimal but customizable logger. Port of the Perl module [Log::Minimal](https://metacpan.org/pod/Log::Minimal)
 
 ## SYNOPSIS
 
@@ -16,7 +16,13 @@ require_once 'path/to/Term/ANSIColor.php';
 \Log\Minimal::debugf('foo') // Print if \Log\Minimal::$debug is true
 ```
 
-## FUNCTIONS
+## DEPENDENCIES
+
+\Log\Minimal has the dependency on the following:
+
+* [\Term\ANSIColor](https://github.com/travail/php-Term-ANSIColor)
+
+## METHODS
 
 ### debugf
 
@@ -33,6 +39,10 @@ require_once 'path/to/Term/ANSIColor.php';
 ### critf
 
 `void debugf(string $formatd [, mixed $args [, mixed $...]])`
+
+#### Parameters
+
+The same as the built-in function `sprintf`.
 
 ## ENVIRONMENT VALUES
 
