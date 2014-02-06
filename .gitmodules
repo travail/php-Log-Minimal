@@ -1,0 +1,3 @@
+[submodule "vendor/Term-ANSIColor"]
+	path = vendor/Term-ANSIColor
+	url = git@github.com:travail/php-Term-ANSIColor.git

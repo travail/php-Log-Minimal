@@ -1,8 +1,7 @@
 <?php
 
-require_once dirname(dirname(__FILE__)) . '/Log/Minimal.php';
-// TODO: Delete later
-require_once '/home/travail/git/php-term-ansicolor/Term/ANSIColor.php';
+require_once dirname(dirname(__FILE__)) . '/lib/Log/Minimal.php';
+require_once dirname(dirname(__FILE__)) . '/vendor/Term-ANSIColor/lib/Term/ANSIColor.php';
 
 main();
 exit;
