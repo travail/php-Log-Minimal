@@ -2,6 +2,8 @@
 
 namespace Log;
 
+use Term\ANSIColor;
+
 class Minimal
 {
     const AUTODUMP    = false;
@@ -73,11 +75,10 @@ class Minimal
         $log_level = self::$log_level_map[strtoupper(self::$log_level)];
         if (self::$log_level_map[$tag] < $log_level) return;
 
-        list($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime(time());
+        list($sec, $min, $hour, $mday, $mon, $year) = localtime(time());
         $time = sprintf('%04d-%02d-%02dT%02d:%02d:%02d',
             $year + 1900, $mon + 1, $mday, $hour, $min, $sec);
 
-        $trace = '';
         $backtrace = debug_backtrace();
         if ($full) {
             $trace = $backtrace[self::$trace_level];
@@ -105,11 +106,12 @@ class Minimal
 
         if (self::$color) {
             list($f, $b, $a) = self::$color_map[$tag];
-            \Term\ANSIColor::setAlias($tag, $f, $b, $a);
-            $message = \Term\ANSIColor::colored($message, $f, $b, $a);
+            ANSIColor::setAlias($tag, $f, $b, $a);
+            $message = ANSIColor::colored($message, $f, $b, $a);
         }
 
         if (is_callable(self::$print)) {
+            /** @var callable $func */
             $func = self::$print;
             $func($time, $tag, $message, $trace, $raw_message);
         }

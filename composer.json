@@ -1,0 +1,20 @@
+{
+  "name": "travail/log-minimal",
+  "description": "travail/log-minimal",
+  "license": "PHP-3.0",
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Log\\": "lib"
+    }
+  },
+  "require": {
+    "travail/term-ansicolor": "dev-master"
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:travail/php-Term-ANSIColor.git"
+    }
+  ]
+}
