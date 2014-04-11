@@ -1,19 +1,37 @@
-# \Log\Minimal
+\Log\Minimal
+========
 
 ## NAME
 
-\Log\Minimal - Minimal but customizable logger. Port of the Perl module [Log::Minimal](https://metacpan.org/pod/Log::Minimal)
+\Log\Minimal - Minimal but customizable logger.
+
+## INSTALLATION
+
+This package is not distributed on [packagist](https://packagist.org/) for now. To install this package into your project via composer, add the following snippet to your `composer.json`. Then run `composer update`.
+
+```
+"require": {
+    "travail/log-minimal": "dev-master"
+},
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "git@github.com:travail/php-Log-Minimal.git"
+    }
+]
+```
 
 ## SYNOPSIS
 
 ```php
-require_once 'path/to/Log/Minimal.php';
-require_once 'path/to/Term/ANSIColor.php';
+use \Log\Minimal;
 
-\Log\Minimal::critf('%s', 'foo'); // 2014-01-28T17:24:34 [CRITICAL] foo at example.php line 12
-\Log\Minimal::warnf('%d %s %s', 1, 'foo', $uri);
-\Log\Minimal::infof('foo');
-\Log\Minimal::debugf('foo') // Print if \Log\Minimal::$debug is true
+require_once '/path/to/vendor/autoload.php';
+
+Minimal::critf('%s', 'foo'); // 2014-01-28T17:24:34 [CRITICAL] foo at example.php line 12
+Minimal::warnf('%d %s %s', 1, 'foo', $uri);
+Minimal::infof('foo');
+Minimal::debugf('foo') // Print if \Log\Minimal::$debug is true
 ```
 
 ## DEPENDENCIES
