@@ -89,34 +89,52 @@ class Minimal
 
         $message     = array_shift($msgs);
         $raw_message = $message;
-        foreach ($msgs as $key => $val) {
-            if (is_object($val) || is_array($val) || is_resource($val) || is_callable($val)) {
+        // In case of more than one arguments such as
+        // debugf("%s %d %s", $string, $integer, $obj)
+        if (count($msgs) > 0) {
+            foreach ($msgs as $key => $val) {
+                if (
+                    is_object($val)   ||
+                    is_array($val)    ||
+                    is_resource($val) ||
+                    is_callable($val)
+                ) {
+                    ob_start();
+                    var_dump($msgs[$key]);
+                    $msgs[$key] = ob_get_contents();
+                    ob_end_clean();
+                }
+            }
+        }
+        // In case of one argument such as debugf($obj) or debugf("Hello!")
+        else {
+            if (
+                is_object($message)   ||
+                is_array($message)    ||
+                is_resource($message) ||
+                is_callable($message)
+            ) {
                 ob_start();
-                var_dump($msgs[$key]);
-                $msgs[$key] = ob_get_contents();
+                var_dump($message);
+                $message = ob_get_contents();
                 ob_end_clean();
             }
         }
-        if (count($msgs) === 1) {
-            $message = vsprintf($message, $msgs);
-        }
-        elseif (count($msgs) >= 2) {
-            $message = vsprintf($message, $msgs);
-        }
+        $formatted_message = vsprintf($message, $msgs);
 
         if (self::$color) {
             list($f, $b, $a) = self::$color_map[$tag];
             ANSIColor::setAlias($tag, $f, $b, $a);
-            $message = ANSIColor::colored($message, $f, $b, $a);
+            $formatted_message = ANSIColor::colored($formatted_message, $f, $b, $a);
         }
 
         if (is_callable(self::$print)) {
             /** @var callable $func */
             $func = self::$print;
-            $func($time, $tag, $message, $trace, $raw_message);
+            $func($time, $tag, $formatted_message, $trace, $raw_message);
         }
         else {
-            self::_print($time, $tag, $message, $trace, $raw_message);
+            self::_print($time, $tag, $formatted_message, $trace, $raw_message);
         }
     }
 
