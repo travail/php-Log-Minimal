@@ -1,5 +1,7 @@
 <?php
 
+use \Log\Minimal;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 main();
@@ -7,7 +9,7 @@ exit;
 
 function main()
 {
-    \Log\Minimal::$debug     = true;
-    \Log\Minimal::$log_level = 'DEBUG';
-    \Log\Minimal::debugf('This is a %s message', 'debug');
+    Minimal::$debug     = true;
+    Minimal::$log_level = 'DEBUG';
+    Minimal::debugf('This is a %s message', 'debug');
 }
