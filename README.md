@@ -5,22 +5,6 @@
 
 \Log\Minimal - Minimal but customizable logger.
 
-## INSTALLATION
-
-This package is not distributed on [packagist](https://packagist.org/) for now. To install this package into your project via composer, add the following snippet to your `composer.json`. Then run `composer update`.
-
-```
-"require": {
-    "travail/log-minimal": "dev-master"
-},
-"repositories": [
-    {
-        "type": "vcs",
-        "url": "git@github.com:travail/php-Log-Minimal.git"
-    }
-]
-```
-
 ## SYNOPSIS
 
 ```php
@@ -32,6 +16,27 @@ Minimal::critf('%s', 'foo'); // 2014-01-28T17:24:34 [CRITICAL] foo at example.ph
 Minimal::warnf('%d %s %s', 1, 'foo', $uri);
 Minimal::infof('foo');
 Minimal::debugf('foo') // Print if \Log\Minimal::$debug is true
+```
+
+## INSTALLATION
+
+To install this package into your project via composer, add the following snippet to your `composer.json`. Then run `composer install`.
+
+```
+"require": {
+    "travail/log-minimal": "dev-master"
+}
+```
+
+If you want to install from github, add the following:
+
+```
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "git@github.com:travail/php-Log-Minimal.git"
+    }
+]
 ```
 
 ## DEPENDENCIES
