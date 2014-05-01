@@ -9,7 +9,7 @@
     }
   },
   "require": {
-    "travail/term-ansicolor": "dev-master"
+    "travail/term-ansicolor": "v0.1.0"
   },
   "repositories": [
     {
